@@ -7,6 +7,8 @@ class RTXUpsamplingTrigger {
         this.overlay = null; // オーバーレイ要素（1つだけ）
         this.observer = null; // MutationObserver
         this.resizeObserver = null; // ResizeObserver
+        this.lastVideoCount = -1; // 前回検出したvideo数
+        this.lastLargestVideo = null; // 前回の最大video要素
         this.init();
     }
 
@@ -37,21 +39,38 @@ class RTXUpsamplingTrigger {
 
     processVideos() {
         const videos = document.querySelectorAll('video');
-        console.log(`RTX Upsampling Trigger: Found ${videos.length} video elements, selecting the largest one`);
+        
+        // video数が変化した場合のみログ出力
+        if (videos.length !== this.lastVideoCount) {
+            console.log(`RTX Upsampling Trigger: Found ${videos.length} video elements`);
+            this.lastVideoCount = videos.length;
+        }
         
         if (videos.length === 0) {
-            this.removeOverlay();
+            if (this.overlay) {
+                this.removeOverlay();
+            }
+            this.lastLargestVideo = null;
             return;
         }
 
         // 最もサイズの大きいvideo要素を見つける
         const largestVideo = this.findLargestVideo(videos);
         
-        if (largestVideo && largestVideo !== this.currentVideo) {
-            this.removeOverlay();
-            this.addOverlayToVideo(largestVideo);
+        // 最大videoが変化した場合のみ処理
+        if (largestVideo !== this.lastLargestVideo) {
+            if (largestVideo) {
+                console.log('RTX Upsampling Trigger: Largest video changed, updating overlay');
+                this.removeOverlay();
+                this.addOverlayToVideo(largestVideo);
+                this.lastLargestVideo = largestVideo;
+            } else if (this.overlay) {
+                console.log('RTX Upsampling Trigger: No valid video found, removing overlay');
+                this.removeOverlay();
+                this.lastLargestVideo = null;
+            }
         } else if (largestVideo === this.currentVideo) {
-            // 同じvideo要素の場合は位置だけ更新
+            // 同じvideo要素の場合は位置だけ更新（ログなし）
             this.updateOverlay();
         }
     }
@@ -77,9 +96,6 @@ class RTXUpsamplingTrigger {
             }
         });
 
-        if (largestVideo) {
-            console.log(`RTX Upsampling Trigger: Largest video found, size: ${maxSize}px²`);
-        }
         return largestVideo;
     }
 
@@ -148,8 +164,6 @@ class RTXUpsamplingTrigger {
             return; // 既に同じvideo要素にオーバーレイが適用されている
         }
 
-        console.log('RTX Upsampling Trigger: Adding overlay to the largest video element');
-
         // 既存のオーバーレイとリスナーを削除
         this.removeOverlay();
 
@@ -191,7 +205,6 @@ class RTXUpsamplingTrigger {
             if (parent) {
                 // video要素の次の兄弟要素の前に挿入（video要素の直後）
                 parent.insertBefore(this.overlay, video.nextSibling);
-                console.log('RTX Upsampling Trigger: Overlay inserted after video element');
             } else {
                 // parentNodeがない場合はbodyに追加（フォールバック）
                 document.body.appendChild(this.overlay);
@@ -214,7 +227,6 @@ class RTXUpsamplingTrigger {
             const parent = this.currentVideo.parentNode;
             if (parent && this.overlay.parentNode !== parent) {
                 // 親が変わった場合は再挿入
-                console.log('RTX Upsampling Trigger: Repositioning overlay due to structure change');
                 this.overlay.remove();
                 this.insertOverlayAfterVideo(this.currentVideo);
             } else if (!parent) {
@@ -231,7 +243,6 @@ class RTXUpsamplingTrigger {
         if (this.overlay) {
             this.overlay.remove();
             this.overlay = null;
-            console.log('RTX Upsampling Trigger: Removed overlay');
         }
 
         // ResizeObserverをクリーンアップ
@@ -343,13 +354,22 @@ class RTXUpsamplingTrigger {
 
 // スクリプトの実行
 let rtxTrigger = null;
+let extensionEnabled = true;
 
-try {
-    rtxTrigger = new RTXUpsamplingTrigger();
-    console.log('RTX Upsampling Trigger: Initialized successfully');
-} catch (error) {
-    console.error('RTX Upsampling Trigger: Initialization failed:', error);
-}
+// 初期状態を取得
+chrome.storage.local.get(['enabled'], (result) => {
+    extensionEnabled = result.enabled !== false;
+    if (extensionEnabled) {
+        try {
+            rtxTrigger = new RTXUpsamplingTrigger();
+            console.log('RTX Upsampling Trigger: Initialized successfully');
+        } catch (error) {
+            console.error('RTX Upsampling Trigger: Initialization failed:', error);
+        }
+    } else {
+        console.log('RTX Upsampling Trigger: Extension is disabled');
+    }
+});
 
 // ページがアンロードされる時のクリーンアップ
 window.addEventListener('beforeunload', () => {
@@ -358,12 +378,13 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
-// Listen for messages from popup
+// Listen for messages from background
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'getVideoStatus') {
         const videos = document.querySelectorAll('video');
         sendResponse({ hasVideo: videos.length > 0 });
     } else if (request.action === 'toggleEnabled') {
+        extensionEnabled = request.enabled;
         if (request.enabled && !rtxTrigger) {
             rtxTrigger = new RTXUpsamplingTrigger();
             console.log('RTX Upsampling Trigger: Re-enabled');
@@ -374,4 +395,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
     }
     return true;
+});
+
+// Storage change listener for real-time sync
+chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes.enabled) {
+        const newEnabled = changes.enabled.newValue;
+        if (newEnabled !== extensionEnabled) {
+            extensionEnabled = newEnabled;
+            if (newEnabled && !rtxTrigger) {
+                rtxTrigger = new RTXUpsamplingTrigger();
+                console.log('RTX Upsampling Trigger: Re-enabled via storage change');
+            } else if (!newEnabled && rtxTrigger) {
+                rtxTrigger.destroy();
+                rtxTrigger = null;
+                console.log('RTX Upsampling Trigger: Disabled via storage change');
+            }
+        }
+    }
 });
