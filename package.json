@@ -21,8 +21,10 @@
   ],
   "scripts": {
     "build": "echo 'No build required for this extension'",
-    "pack": "zip -r rtx-video-enhancer.zip manifest.json *.js *.html icons/ LICENSE.md README.md -x generate_icons.py -x package.json -x README_JA.md",
-    "clean": "rm -f rtx-video-enhancer.zip"
+    "pack": "powershell -ExecutionPolicy Bypass -File pack.ps1",
+    "pack:unix": "zip -r rtx-video-enhancer.zip manifest.json *.js *.html icons/ LICENSE.md README.md -x generate_icons.py -x package.json -x README_JA.md",
+    "clean": "powershell -Command \"if (Test-Path rtx-video-enhancer.zip) { Remove-Item rtx-video-enhancer.zip }\"",
+    "clean:unix": "rm -f rtx-video-enhancer.zip"
   },
   "engines": {
     "node": ">=14.0.0"

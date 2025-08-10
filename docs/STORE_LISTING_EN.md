@@ -19,7 +19,7 @@ KEY FEATURES:
 - No data collection or tracking
 
 REQUIREMENTS:
-- NVIDIA RTX Graphics Card (RTX 20/30/40 series)
+- NVIDIA RTX Graphics Card (RTX series)
 - Latest NVIDIA drivers (526.98+) with RTX Super Resolution support
 - Microsoft Windows 10/11
 - Google Chrome with hardware acceleration enabled
