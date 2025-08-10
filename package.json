@@ -1,0 +1,31 @@
+{
+  "name": "rtx-video-enhancer",
+  "version": "1.0.0",
+  "description": "Chrome extension that enables NVIDIA RTX Super Resolution for video streaming services",
+  "author": "sabamotto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sabamotto/rtx-activator-extension"
+  },
+  "keywords": [
+    "chrome-extension",
+    "nvidia",
+    "rtx",
+    "video-enhancement",
+    "streaming",
+    "netflix",
+    "amazon-prime",
+    "abematv",
+    "unext"
+  ],
+  "scripts": {
+    "build": "echo 'No build required for this extension'",
+    "pack": "zip -r rtx-video-enhancer.zip manifest.json *.js *.html icons/ LICENSE.md README.md -x generate_icons.py -x package.json -x README_JA.md",
+    "clean": "rm -f rtx-video-enhancer.zip"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "private": true
+}
