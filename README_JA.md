@@ -22,7 +22,7 @@
 ## インストール方法
 
 ### Chrome ウェブストアから
-準備中
+https://chromewebstore.google.com/detail/odgkllkpohmcplibemdjhgblambiphhc
 
 ### 手動インストール
 1. このリポジトリをクローンまたはダウンロード
@@ -44,4 +44,4 @@ sabamotto
 
 ## サポート
 
-問題や機能リクエストについては、[GitHubリポジトリ](https://github.com/sabamotto/rtx-activator-extension)をご利用ください。
+問題や機能リクエストについては、[GitHubリポジトリ](https://github.com/sabamotto/rtx-video-enhancer-extension)をご利用ください。

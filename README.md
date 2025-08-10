@@ -22,7 +22,7 @@ Works with major video streaming platforms worldwide.
 ## Installation
 
 ### From Chrome Web Store
-Coming soon
+https://chromewebstore.google.com/detail/odgkllkpohmcplibemdjhgblambiphhc
 
 ### Manual Installation
 1. Clone or download this repository
@@ -44,4 +44,4 @@ sabamotto
 
 ## Support
 
-For issues and feature requests, please visit the [GitHub repository](https://github.com/sabamotto/rtx-activator-extension).
+For issues and feature requests, please visit the [GitHub repository](https://github.com/sabamotto/rtx-video-enhancer-extension).
