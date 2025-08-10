@@ -10,30 +10,31 @@ RTX Video Enhancer
 
 RTX Video Enhancerは、動画ストリーミングプラットフォームでフルスクリーンモード時に高品位なアップスケーリングを実現します。特に高解像度ディスプレイにおいて標準的なアップスケールでは品質が十分でない場合に、NVIDIA RTX Super ResolutionのAI駆動技術により優れた動画品質を維持できます。
 
-主な機能:
-- フルスクリーンモードで自動有効化
-- 世界中の主要なストリーミングサービスに対応
-- 最小限のパフォーマンス影響で軽量動作
-- 拡張機能アイコンでの簡単なON/OFF切り替え
-- 設定不要で即利用可能
-- データ収集や追跡なし
+■主な機能
+・フルスクリーンモードで自動有効化
+・世界中の主要なストリーミングサービスに対応
+・最小限のパフォーマンス影響で軽量動作
+・拡張機能アイコンでの簡単なON/OFF切り替え
+・設定不要で即利用可能
+・データ収集や追跡なし
 
-必要環境:
-- NVIDIA RTXグラフィックスカード（RTXシリーズ）
-- 最新のNVIDIAドライバー
-- Microsoft Windows 10/11
-- Google Chrome
+■必要環境
+・NVIDIA RTXグラフィックスカード（RTXシリーズ）
+・最新のNVIDIAドライバー
+・Microsoft Windows 10/11
+・Google Chrome
 
-動作原理:
+■動作原理
 動画プレーヤーに最小限のオーバーレイ要素を追加し、フルスクリーンモードで動画を再生する際にNVIDIAのRTX Super Resolutionをトリガーします。特に高解像度ディスプレイにおいて標準的なアップスケールでは品質が不十分な場合に、RTX GPUがリアルタイムで優れた動画品質向上を提供します。
 
-プライバシー:
+■プライバシー
 完全にローカルで動作し、データ収集、外部通信、ユーザー追跡は一切行いません。有効/無効の設定のみをローカルデバイスに保存します。
 
-サポート:
-問題や機能リクエストについては以下をご覧ください: https://github.com/sabamotto/rtx-video-enhancer-extension
+■サポート
+問題や機能リクエストについては以下をご覧ください：
+https://github.com/sabamotto/rtx-video-enhancer-extension
 
-免責事項:
+■免責事項
 この拡張機能はNVIDIA Corporationとは提携していません。NVIDIA、GeForce、RTXはNVIDIA Corporationの商標です。
 
 ## カテゴリ
