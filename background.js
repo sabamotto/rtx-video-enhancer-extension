@@ -38,7 +38,7 @@ function updateIconBadge(enabled) {
     if (enabled) {
         chrome.action.setBadgeText({ text: '' });
     } else {
-        chrome.action.setBadgeText({ text: 'OFF' });
+        chrome.action.setBadgeText({ text: chrome.i18n.getMessage('badgeOff') });
         chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
     }
 }

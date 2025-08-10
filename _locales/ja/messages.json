@@ -1,0 +1,18 @@
+{
+  "extensionName": {
+    "message": "RTX Video Enhancer",
+    "description": "拡張機能名"
+  },
+  "extensionDescription": {
+    "message": "動画ストリーミングサービスでNVIDIA RTX Super Resolutionを有効化し、フルスクリーン時の動画品質を向上させます。",
+    "description": "拡張機能の説明"
+  },
+  "badgeOn": {
+    "message": "ON",
+    "description": "拡張機能が有効時のバッジテキスト"
+  },
+  "badgeOff": {
+    "message": "OFF",
+    "description": "拡張機能が無効時のバッジテキスト"
+  }
+}

@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "RTX Video Enhancer",
+  "name": "__MSG_extensionName__",
   "version": "1.0.0",
-  "description": "Enable NVIDIA RTX Super Resolution for video streaming services",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "en",
   "author": "sabamotto",
   "permissions": [
     "activeTab",

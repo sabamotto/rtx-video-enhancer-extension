@@ -20,7 +20,8 @@ $filesToInclude = @(
     "LICENSE.md",
     "README.md",
     "README_JA.md",
-    "icons\*"
+    "icons\*",
+    "_locales\*"
 )
 
 # Create temporary directory for packaging
@@ -32,7 +33,7 @@ try {
     # Copy files to temporary directory
     foreach ($file in $filesToInclude) {
         if ($file -like "*\*") {
-            # Handle directories (like icons\*)
+            # Handle directories (like icons\* and _locales\*)
             $dirName = $file.Replace("\*", "")
             $destDir = Join-Path $tempDir $dirName
             New-Item -ItemType Directory -Path $destDir -Force | Out-Null
